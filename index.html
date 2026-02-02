@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For COCO 💖</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Prevents scrollbars when the button moves */
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            width: min(90%, 340px);
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #ff3366;
+            min-height: 80px;
+            font-size: 1.4rem;
+        }
+
+        .name {
+            color: #ff3366;
+            font-weight: bold;
+        }
+
+        .btn-area {
+            position: relative;
+            height: 60px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        #yesBtn {
+            background: #ff3366;
+            color: white;
+        }
+
+        #noBtn {
+            background: #555;
+            color: white;
+            position: absolute; /* Changed to absolute for movement */
+            transition: 0.1s ease-out;
+            z-index: 999;
+            /* pointer-events: none; <-- REMOVED this so JS can see the mouse */
+        }
+
+        #result {
+            display: none;
+        }
+
+        #result img {
+            width: 200px;
+            margin-top: 15px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="card">
+    <div id="main-content">
+        <h1 id="typing"></h1>
+        <div class="btn-area" id="btnArea">
+            <button id="yesBtn">Yes 💖</button>
+            <button id="noBtn">No 😅</button>
+        </div>
+    </div>
+
+    <div id="result">
+        <h2>Yaaay <span class="name">COCO</span>!!! 💕</h2>
+        <p>
+            You just made my heart very happy 💓<br>
+            Screenshot this — you’re officially my Valentine 💍
+        </p>
+        <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" alt="Happy dance">
+    </div>
+</div>
+
+<audio id="music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+</audio>
+
+<script>
+    /* Typing Effect */
+    const text = "Hey COCO 💕\nWill you be my Valentine?";
+    const typingEl = document.getElementById("typing");
+    let i = 0;
+
+    function typeText() {
+        if (i < text.length) {
+            typingEl.innerHTML += text[i] === "\n" ? "<br>" : text[i];
+            i++;
+            setTimeout(typeText, 70);
+        }
+    }
+    typeText();
+
+    /* Elements */
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const card = document.getElementById("card");
+    const mainContent = document.getElementById("main-content");
+    const result = document.getElementById("result");
+    const music = document.getElementById("music");
+
+    /* Run-away logic */
+    noBtn.addEventListener("mouseover", () => {
+        // Calculate random position within the viewport
+        // Subtracting button dimensions so it doesn't go off-edge
+        const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+        const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+
+        // Make it jump anywhere on the screen
+        noBtn.style.position = "fixed";
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    });
+
+    /* YES button logic */
+    yesBtn.addEventListener("click", () => {
+        mainContent.style.display = "none";
+        result.style.display = "block";
+        music.play().catch(e => console.log("Audio needs user interaction first"));
+    });
+</script>
+
+</body>
+</html>
